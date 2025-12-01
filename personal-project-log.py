@@ -43,6 +43,9 @@ def convert_to_projects(json_projects):
             
             project.Roles.append(role)
 
+        for json_tag in json_project.get('Tags'):
+            project.Tags.append(json_tag)
+
         projects.append(project)
 
     return projects
