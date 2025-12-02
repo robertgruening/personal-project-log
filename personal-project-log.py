@@ -1,8 +1,9 @@
 import datetime
 import docx
 from docx.shared import Pt
-import json
 from json import JSONEncoder
+
+from repository import Repository
 
 class Role():
     def __init__(self):
@@ -51,10 +52,10 @@ def convert_to_projects(json_projects):
     return projects
 
 def load_data():
-    with open("projects.json", "r") as f:
-        return convert_to_projects(json.load(f))
+    repository = Repository()
+    repository.set_file_path("projects.json")
 
-    return []
+    return convert_to_projects(repository.load())
 
 def export_format_a(doc, projects):
     table = doc.add_table(rows = len(projects), cols = 2)
