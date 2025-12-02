@@ -6,7 +6,7 @@ class ProjectConverter():
     def __init__(self):
         pass
 
-    def convert(json_projects):
+    def convert(self, json_projects):
         projects = []
 
         for json_project in json_projects:
