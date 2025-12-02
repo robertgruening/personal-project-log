@@ -52,10 +52,11 @@ def convert_to_projects(json_projects):
     return projects
 
 def load_data():
-    repository = Repository()
-    repository.set_file_path("projects.json")
-
-    return convert_to_projects(repository.load())
+    return convert_to_projects(
+        Repository()\
+            .set_file_path("projects.json")\
+            .load()
+    )
 
 def export_format_a(doc, projects):
     table = doc.add_table(rows = len(projects), cols = 2)

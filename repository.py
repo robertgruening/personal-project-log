@@ -8,6 +8,8 @@ class Repository():
     def set_file_path(self, file_path):
         self.file_path = file_path
 
+        return self
+
     def load(self):
         with open(self.file_path, "r") as f:
             return json.load(f)
