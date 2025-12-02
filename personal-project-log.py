@@ -1,23 +1,10 @@
 import datetime
 from json import JSONEncoder
 
-from repository import Repository
 from formataexporter import FormatAExporter
-
-class Role():
-    def __init__(self):
-        self.Name = None
-        self.Tasks = []
-
-class Project():
-    def __init__(self):
-        self.Title = None
-        self.StartDate = None
-        self.EndDate = None
-        self.Description = None
-        self.CustomerName = None
-        self.Roles = []
-        self.Tags = []
+from project import Project
+from repository import Repository
+from role import Role
 
 class ProjectEncoder(JSONEncoder):
     def default(self, o):
