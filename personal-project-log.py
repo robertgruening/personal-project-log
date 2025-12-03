@@ -53,8 +53,8 @@ def open_project_form():
 
     #region button save
     frame_buttons = ttk.Frame(project_form, padding=10)
-    ttk.Button(frame_buttons, text="Abbrechen").pack(side=tk.LEFT)
-    ttk.Button(frame_buttons, text="Speichern").pack(side=tk.LEFT)
+    ttk.Button(frame_buttons, text="Abbrechen").pack(side=tk.LEFT, padx=5)
+    ttk.Button(frame_buttons, text="Speichern").pack(side=tk.LEFT, padx=5)
     frame_buttons.grid(column=1, row=3, sticky=tk.E, padx=5, pady=5)
     #endregion
 
@@ -92,12 +92,12 @@ treeview.pack()
 for project in projects:
     treeview.insert('', 'end', values=(project.Title, project.StartDate, project.EndDate))
 
-frame_treeview.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+frame_treeview.pack(fill=tk.BOTH, expand=True)
 
 frame_buttons = ttk.Frame(window, padding=10)
-ttk.Button(frame_buttons, text="Neu", command=create_project).pack(side=tk.LEFT)
-ttk.Button(frame_buttons, text="Bearbeiten", command=edit_project).pack(side=tk.LEFT)
-ttk.Button(frame_buttons, text="Export (Format A)", command=export_to_format_a).pack(side=tk.LEFT)
+ttk.Button(frame_buttons, text="Neu", command=create_project).pack(side=tk.LEFT, padx=5)
+ttk.Button(frame_buttons, text="Bearbeiten", command=edit_project).pack(side=tk.LEFT, padx=5)
+ttk.Button(frame_buttons, text="Export (Format A)", command=export_to_format_a).pack(side=tk.LEFT, padx=5)
 frame_buttons.pack()
 
 window.mainloop()
