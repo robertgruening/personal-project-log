@@ -12,6 +12,12 @@ from repository import Repository
 #    def default(self, o):
 #        return o.__dict__
 
+def create_project():
+    pass
+
+def edit_project():
+    pass
+
 def export_to_format_a():
     FormatAExporter()\
         .set_file_path(f"{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S_Projekte.docx")}")\
@@ -26,12 +32,13 @@ projects = ProjectConverter()\
     
 window = Tk()
 window.title('Personal Project Log')
+window.geometry("%dx%d" % (window.winfo_screenwidth(), window.winfo_screenheight()))
 
 frame_treeview = ttk.Frame(window, padding=10)
 
 treeview = ttk.Treeview(frame_treeview, column=("c1", "c2", "c3"), show='headings', height=5)
 
-scroll_bar = ttk.Scrollbar(window, orient="vertical", command=treeview.yview)
+scroll_bar = ttk.Scrollbar(frame_treeview, orient="vertical", command=treeview.yview)
 treeview.configure(yscrollcommand=scroll_bar.set)
 
 treeview.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
@@ -51,7 +58,9 @@ for project in projects:
 frame_treeview.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
 frame_buttons = ttk.Frame(window, padding=10)
-ttk.Button(frame_buttons, text="Export (Format A)", command=export_to_format_a).grid(column=0, row=0)
+ttk.Button(frame_buttons, text="Neu", command=create_project).pack(side=tk.LEFT)
+ttk.Button(frame_buttons, text="Bearbeiten", command=edit_project).pack(side=tk.LEFT)
+ttk.Button(frame_buttons, text="Export (Format A)", command=export_to_format_a).pack(side=tk.LEFT)
 frame_buttons.pack()
 
 window.mainloop()
