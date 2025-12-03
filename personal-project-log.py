@@ -13,7 +13,7 @@ from repository import Repository
 #        return o.__dict__
 
 def create_project():
-    pass
+    open_project_form()
 
 def edit_project():
     pass
@@ -23,13 +23,43 @@ def export_to_format_a():
         .set_file_path(f"{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S_Projekte.docx")}")\
         .export(projects)
 
+def open_project_form():
+    project_form = Tk()
+    project_form.title('Projekt')
+
+    #region title
+    title_label = ttk.Label(project_form, text="Titel")
+    title_label.grid(column=0, row=0, sticky=tk.EW, padx=5, pady=5)
+
+    title_entry = ttk.Entry(project_form)
+    title_entry.grid(column=1, row=0, sticky=tk.EW, padx=5, pady=5)
+    #endregion
+
+    #region start date
+    start_date_label = ttk.Label(project_form, text="Startdatum")
+    start_date_label.grid(column=0, row=1, sticky=tk.EW, padx=5, pady=5)
+
+    start_date_entry = ttk.Entry(project_form)
+    start_date_entry.grid(column=1, row=1, sticky=tk.EW, padx=5, pady=5)
+    #endregion
+
+    #region end date
+    end_date_label = ttk.Label(project_form, text="Enddatum")
+    end_date_label.grid(column=0, row=2, sticky=tk.EW, padx=5, pady=5)
+
+    end_date_entry = ttk.Entry(project_form)
+    end_date_entry.grid(column=1, row=2, sticky=tk.EW, padx=5, pady=5)
+    #endregion
+
+    project_form.mainloop()
+
 json_projects = Repository()\
     .set_file_path("projects.json")\
     .load()
 
 projects = ProjectConverter()\
     .convert(json_projects)
-    
+
 window = Tk()
 window.title('Personal Project Log')
 window.geometry("%dx%d" % (window.winfo_screenwidth(), window.winfo_screenheight()))
