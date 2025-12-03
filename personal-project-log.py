@@ -5,6 +5,7 @@ from tkinter import ttk
 #from json import JSONEncoder
 
 from formataexporter import FormatAExporter
+from project import Project
 from projectconverter import ProjectConverter
 from repository import Repository
 
@@ -16,14 +17,25 @@ def create_project():
     open_project_form()
 
 def edit_project():
-    pass
+    selected_item_iids = treeview.selection()
+
+    if selected_item_iids is None or \
+        len(selected_item_iids) == 0:
+        return
+    
+    selected_item = treeview.item(selected_item_iids[0])
+    selected_item_values = selected_item.get('values')
+
+    for project in projects:
+        if selected_item_values[0] == project.Title:
+            open_project_form(project)
 
 def export_to_format_a():
     FormatAExporter()\
         .set_file_path(f"{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S_Projekte.docx")}")\
         .export(projects)
 
-def open_project_form():
+def open_project_form(project:Project):
     project_form = Tk()
     project_form.title('Projekt')
 
@@ -33,6 +45,9 @@ def open_project_form():
 
     title_entry = ttk.Entry(project_form)
     title_entry.grid(column=1, row=0, sticky=tk.EW, padx=5, pady=5)
+    
+    if project is not None:
+        title_entry.insert(0, project.Title)
     #endregion
 
     #region start date
@@ -41,6 +56,9 @@ def open_project_form():
 
     start_date_entry = ttk.Entry(project_form)
     start_date_entry.grid(column=1, row=1, sticky=tk.EW, padx=5, pady=5)
+    
+    if project is not None:
+        start_date_entry.insert(0, project.StartDate)
     #endregion
 
     #region end date
@@ -49,6 +67,9 @@ def open_project_form():
 
     end_date_entry = ttk.Entry(project_form)
     end_date_entry.grid(column=1, row=2, sticky=tk.EW, padx=5, pady=5)
+    
+    if project is not None:
+        end_date_entry.insert(0, project.EndDate)
     #endregion
 
     #region button save
