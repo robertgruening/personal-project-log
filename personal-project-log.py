@@ -51,6 +51,13 @@ def open_project_form():
     end_date_entry.grid(column=1, row=2, sticky=tk.EW, padx=5, pady=5)
     #endregion
 
+    #region button save
+    frame_buttons = ttk.Frame(project_form, padding=10)
+    ttk.Button(frame_buttons, text="Abbrechen").pack(side=tk.LEFT)
+    ttk.Button(frame_buttons, text="Speichern").pack(side=tk.LEFT)
+    frame_buttons.grid(column=1, row=3, sticky=tk.E, padx=5, pady=5)
+    #endregion
+
     project_form.mainloop()
 
 json_projects = Repository()\
