@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter import ttk
 #from json import JSONEncoder
 
+from tagsexporter import TagsExporter
 from formataexporter import FormatAExporter
 from formatbexporter import FormatBExporter
 from project import Project
@@ -31,6 +32,11 @@ def edit_project():
         if selected_item_values[0] == project.Title:
             open_project_form(project)
 
+def export_tags():
+    TagsExporter()\
+        .set_file_path(f"{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S_Projekt-Tags.docx")}")\
+        .export(projects)
+    
 def export_to_format_a():
     FormatAExporter()\
         .set_file_path(f"{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S_Projekte_Format-A.docx")}")\
@@ -124,6 +130,7 @@ frame_treeview.pack(fill=tk.BOTH, expand=True)
 frame_buttons = ttk.Frame(window, padding=10)
 ttk.Button(frame_buttons, text="Neu", command=create_project).pack(side=tk.LEFT, padx=5)
 ttk.Button(frame_buttons, text="Bearbeiten", command=edit_project).pack(side=tk.LEFT, padx=5)
+ttk.Button(frame_buttons, text="Export (Tags)", command=export_tags).pack(side=tk.LEFT, padx=5)
 ttk.Button(frame_buttons, text="Export (Format A)", command=export_to_format_a).pack(side=tk.LEFT, padx=5)
 ttk.Button(frame_buttons, text="Export (Format B)", command=export_to_format_b).pack(side=tk.LEFT, padx=5)
 frame_buttons.pack()
