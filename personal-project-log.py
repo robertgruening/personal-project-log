@@ -5,6 +5,7 @@ from tkinter import ttk
 #from json import JSONEncoder
 
 from formataexporter import FormatAExporter
+from formatbexporter import FormatBExporter
 from project import Project
 from projectconverter import ProjectConverter
 from repository import Repository
@@ -32,7 +33,12 @@ def edit_project():
 
 def export_to_format_a():
     FormatAExporter()\
-        .set_file_path(f"{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S_Projekte.docx")}")\
+        .set_file_path(f"{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S_Projekte_Format-A.docx")}")\
+        .export(projects)
+    
+def export_to_format_b():
+    FormatBExporter()\
+        .set_file_path(f"{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S_Projekte_Format-B.docx")}")\
         .export(projects)
 
 def open_project_form(project:Project):
@@ -119,6 +125,7 @@ frame_buttons = ttk.Frame(window, padding=10)
 ttk.Button(frame_buttons, text="Neu", command=create_project).pack(side=tk.LEFT, padx=5)
 ttk.Button(frame_buttons, text="Bearbeiten", command=edit_project).pack(side=tk.LEFT, padx=5)
 ttk.Button(frame_buttons, text="Export (Format A)", command=export_to_format_a).pack(side=tk.LEFT, padx=5)
+ttk.Button(frame_buttons, text="Export (Format B)", command=export_to_format_b).pack(side=tk.LEFT, padx=5)
 frame_buttons.pack()
 
 window.mainloop()
