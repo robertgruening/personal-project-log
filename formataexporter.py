@@ -47,10 +47,10 @@ class FormatAExporter():
             run_role_names.font.name = 'Arial'
             run_role_names.font.size = Pt(10)
 
-            run_role_title = right_cell.add_paragraph(style=None)\
+            run_title = right_cell.add_paragraph(style=None)\
                 .add_run(project.Title)
-            run_role_title.font.name = 'Arial'
-            run_role_title.font.size = Pt(10)
+            run_title.font.name = 'Arial'
+            run_title.font.size = Pt(10)
 
             run_description = right_cell.add_paragraph(style=None)\
                 .add_run(project.Description)
