@@ -67,6 +67,13 @@ class FormatBExporter():
             run_left_cell.font.size = Pt(11)
             run_left_cell.bold = True
 
+            right_cell = row[1]
+            right_cell.paragraphs.clear()
+            run_right_cell = right_cell.add_paragraph(style=None)\
+                .add_run(f"{project.IndustrySector}")
+            run_right_cell.font.name = 'Cambira'
+            run_right_cell.font.size = Pt(11)
+
             row = table.rows[2].cells
             left_cell = row[0]
             left_cell.paragraphs.clear()

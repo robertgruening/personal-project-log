@@ -16,6 +16,7 @@ class ProjectConverter():
             project.EndDate = json_project.get('EndDate')
             project.Description = json_project.get('Description')
             project.CustomerName = json_project.get('CustomerName')
+            project.IndustrySector = json_project.get('IndustrySector')
 
             for json_role in json_project.get('RoleNames'):
                 project.RoleNames.append(json_role)
@@ -26,7 +27,7 @@ class ProjectConverter():
                 
                 for json_task in json_task_group.get('Tasks'):
                     task_group.Tasks.append(json_task)
-                    
+
                 project.TaskGroups.append(task_group)
 
             for json_tag in json_project.get('Tags'):
