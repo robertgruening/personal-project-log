@@ -1,5 +1,7 @@
 import docx
 from docx.shared import Pt
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.text import WD_BREAK
 
 class FormatBExporter():
     def __init__(self):
@@ -40,5 +42,78 @@ class FormatBExporter():
                 .add_run(timespan)
             run_timespan.font.name = 'Cambira'
             run_timespan.font.size = Pt(11)
+
+            doc.add_paragraph(style=None)
+
+            table = doc.add_table(rows = 4, cols = 2)
+            row = table.rows[0].cells
+            left_cell = row[0]
+            left_cell.paragraphs.clear()
+            run_left_cell = left_cell.add_paragraph(style=None)\
+                .add_run('KUNDE')
+            run_left_cell.font.name = 'Cambira'
+            run_left_cell.font.size = Pt(11)
+            run_left_cell.bold = True
+
+            right_cell = row[1]
+            right_cell.paragraphs.clear()
+            run_right_cell = right_cell.add_paragraph(style=None)\
+                .add_run(f"{project.CustomerName}")
+            run_right_cell.font.name = 'Cambira'
+            run_right_cell.font.size = Pt(11)
+            run_right_cell.bold = True
+
+            row = table.rows[1].cells
+            left_cell = row[0]
+            left_cell.paragraphs.clear()
+            run_left_cell = left_cell.add_paragraph(style=None)\
+                .add_run('Branche')
+            run_left_cell.font.name = 'Cambira'
+            run_left_cell.font.size = Pt(11)
+            run_left_cell.bold = True
+
+            row = table.rows[2].cells
+            left_cell = row[0]
+            left_cell.paragraphs.clear()
+            run_left_cell = left_cell.add_paragraph(style=None)\
+                .add_run('Team- / Projektgröße')
+            run_left_cell.font.name = 'Cambira'
+            run_left_cell.font.size = Pt(11)
+            run_left_cell.bold = True
+
+            row = table.rows[3].cells
+            left_cell = row[0]
+            left_cell.paragraphs.clear()
+            run_left_cell = left_cell.add_paragraph(style=None)\
+                .add_run('Umfeld')
+            run_left_cell.font.name = 'Cambira'
+            run_left_cell.font.size = Pt(11)
+            run_left_cell.bold = True
+            run_left_cell = left_cell.add_paragraph(style=None)\
+                .add_run('(Eingesetzte Methoden, \nProgrammiersprachen, \nWerkzeuge)')
+            run_left_cell.font.name = 'Calibri'
+            run_left_cell.font.size = Pt(8)
+
+            right_cell = row[1]
+            right_cell.paragraphs.clear()
+            paragraph_left_cell = right_cell.add_paragraph(style=None)
+            paragraph_left_cell.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+            run_right_cell = paragraph_left_cell\
+                .add_run(' | '.join(project.Tags))
+            run_right_cell.font.name = 'Cambira'
+            run_right_cell.font.size = Pt(11)
+
+            doc.add_paragraph(style=None)
+
+            paragraph_description = doc.add_paragraph(style=None)
+            paragraph_description.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+            run_description = paragraph_description\
+                .add_run(project.Description)
+            run_description.font.name = 'Calibri'
+            run_description.font.size = Pt(11)
+
+            paragraph_new_page = doc.add_paragraph(style=None)
+            run_new_page = paragraph_new_page.add_run()
+            run_new_page.add_break(WD_BREAK.PAGE)
 
         doc.save(self.file_path)
