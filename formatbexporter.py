@@ -112,6 +112,16 @@ class FormatBExporter():
             run_description.font.name = 'Calibri'
             run_description.font.size = Pt(11)
 
+            doc.add_paragraph(style=None)
+
+            paragraph_chapter_roles = doc.add_paragraph(style=None)
+            paragraph_chapter_roles.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+            run_chapter_roles = paragraph_chapter_roles\
+                .add_run('AUFGABEN IM PROJEKT')
+            run_chapter_roles.font.name = 'Calibri'
+            run_chapter_roles.font.size = Pt(12)
+            run_chapter_roles.bold = True
+
             paragraph_new_page = doc.add_paragraph(style=None)
             run_new_page = paragraph_new_page.add_run()
             run_new_page.add_break(WD_BREAK.PAGE)
