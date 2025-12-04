@@ -37,13 +37,8 @@ class FormatAExporter():
                 .add_run(project.CustomerName)\
                 .bold = True
 
-            role_names = []
-
-            for role in project.Roles:
-                role_names.append(role.Name)
-
             run_role_names = right_cell.add_paragraph(style=None)\
-                .add_run(', '.join(role_names))
+                .add_run(', '.join(project.RoleNames))
             run_role_names.font.name = 'Arial'
             run_role_names.font.size = Pt(10)
 

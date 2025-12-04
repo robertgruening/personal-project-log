@@ -5,5 +5,5 @@ class Project():
         self.EndDate = None
         self.Description = None
         self.CustomerName = None
-        self.Roles = []
+        self.RoleNames = []
         self.Tags = []

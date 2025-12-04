@@ -16,13 +16,8 @@ class FormatBExporter():
         doc = docx.Document()
 
         for i, project in enumerate(projects):
-            role_names = []
-
-            for role in project.Roles:
-                role_names.append(role.Name)
-
             run_role_names = doc.add_paragraph(style=None)\
-                .add_run(', '.join(role_names))
+                .add_run(', '.join(project.RoleNames))
             run_role_names.font.name = 'Cambria'
             run_role_names.font.size = Pt(12)
             run_role_names.bold = True
@@ -114,13 +109,13 @@ class FormatBExporter():
 
             doc.add_paragraph(style=None)
 
-            paragraph_chapter_roles = doc.add_paragraph(style=None)
-            paragraph_chapter_roles.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-            run_chapter_roles = paragraph_chapter_roles\
+            paragraph_chapter_tasks = doc.add_paragraph(style=None)
+            paragraph_chapter_tasks.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+            run_chapter_tasks = paragraph_chapter_tasks\
                 .add_run('AUFGABEN IM PROJEKT')
-            run_chapter_roles.font.name = 'Calibri'
-            run_chapter_roles.font.size = Pt(12)
-            run_chapter_roles.bold = True
+            run_chapter_tasks.font.name = 'Calibri'
+            run_chapter_tasks.font.size = Pt(12)
+            run_chapter_tasks.bold = True
 
             paragraph_new_page = doc.add_paragraph(style=None)
             run_new_page = paragraph_new_page.add_run()

@@ -1,5 +1,4 @@
 from project import Project
-from role import Role
 
 
 class ProjectConverter():
@@ -17,14 +16,8 @@ class ProjectConverter():
             project.Description = json_project.get('Description')
             project.CustomerName = json_project.get('CustomerName')
 
-            for json_role in json_project.get('Roles'):
-                role = Role()
-                role.Name = json_role.get('Name')
-
-                for json_task in json_role.get('Tasks'):
-                    role.Tasks.append(json_task)
-                
-                project.Roles.append(role)
+            for json_role in json_project.get('RoleNames'):
+                project.RoleNames.append(json_role)
 
             for json_tag in json_project.get('Tags'):
                 project.Tags.append(json_tag)
