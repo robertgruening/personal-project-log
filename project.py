@@ -6,4 +6,5 @@ class Project():
         self.Description = None
         self.CustomerName = None
         self.RoleNames = []
+        self.TaskGroups = []
         self.Tags = []

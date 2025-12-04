@@ -117,6 +117,20 @@ class FormatBExporter():
             run_chapter_tasks.font.size = Pt(12)
             run_chapter_tasks.bold = True
 
+            for task_group in project.TaskGroups:
+                run_chapter_task_group = doc.add_paragraph(style=None)\
+                    .add_run(task_group.Name)
+                run_chapter_task_group.font.name = 'Arial'
+                run_chapter_task_group.font.size = Pt(11)
+                run_chapter_task_group.bold = True
+
+                for task in task_group.Tasks:
+                    run_chapter_task = doc.add_paragraph(style='List Bullet')\
+                        .add_run(task)
+                    run_chapter_task.font.name = 'Calibri'
+                    run_chapter_task.font.size = Pt(11)
+
+
             paragraph_new_page = doc.add_paragraph(style=None)
             run_new_page = paragraph_new_page.add_run()
             run_new_page.add_break(WD_BREAK.PAGE)

@@ -1,4 +1,5 @@
 from project import Project
+from taskgroup import TaskGroup
 
 
 class ProjectConverter():
@@ -18,6 +19,15 @@ class ProjectConverter():
 
             for json_role in json_project.get('RoleNames'):
                 project.RoleNames.append(json_role)
+
+            for json_task_group in json_project.get('TaskGroups'):
+                task_group = TaskGroup()
+                task_group.Name = json_task_group.get('Name')
+                
+                for json_task in json_task_group.get('Tasks'):
+                    task_group.Tasks.append(json_task)
+                    
+                project.TaskGroups.append(task_group)
 
             for json_tag in json_project.get('Tags'):
                 project.Tags.append(json_tag)
