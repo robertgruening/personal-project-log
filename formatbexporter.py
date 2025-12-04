@@ -30,18 +30,14 @@ class FormatBExporter():
             run_title.font.name = 'Cambira'
             run_title.font.size = Pt(11)
 
-            run_title = doc.add_paragraph(style=None)\
-                .add_run(project.Title)
-            run_title.font.name = 'Cambira'
-            run_title.font.size = Pt(11)
-
             timespan = project.StartDate
 
             if project.EndDate is not None and\
                 project.StartDate != project.EndDate:
                 timespan += f" - {project.EndDate}"
 
-            run_timespan = doc.add_run(timespan)
+            run_timespan = doc.add_paragraph(style=None)\
+                .add_run(timespan)
             run_timespan.font.name = 'Cambira'
             run_timespan.font.size = Pt(11)
 
