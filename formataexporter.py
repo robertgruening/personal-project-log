@@ -34,7 +34,7 @@ class FormatAExporter():
             timespan_run.font.size = Pt(10)
             
             right_cell.add_paragraph(style=None)\
-                .add_run(f"{project.CustomerName}, {project.IndustrySector}")\
+                .add_run(f"{project.CustomerName}, {project.IndustrySector}, {project.CustomerLocation}")\
                 .bold = True
 
             run_role_names = right_cell.add_paragraph(style=None)\

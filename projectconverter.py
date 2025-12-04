@@ -16,6 +16,7 @@ class ProjectConverter():
             project.EndDate = json_project.get('EndDate')
             project.Description = json_project.get('Description')
             project.CustomerName = json_project.get('CustomerName')
+            project.CustomerLocation = json_project.get('CustomerLocation')
             project.IndustrySector = json_project.get('IndustrySector')
 
             for json_role in json_project.get('RoleNames'):
