@@ -33,23 +33,21 @@ def edit_project():
         if selected_item_values[0] == project.Title:
             open_project_form(project)
 
-def export_tags():
-    TagsExporter()\
-        .set_file_path(f"{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S_Projekt-Tags.docx")}")\
-        .export(projects)
-    
-def export_to_format_a():
-    FormatAExporter()\
-        .set_file_path(f"{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S_Projekte_Format-A.docx")}")\
-        .export(projects)
-    
-def export_to_format_b():
-    FormatBExporter()\
-        .set_file_path(f"{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S_Projekte_Format-B.docx")}")\
-        .export(projects)
-    
-def export_to_format_c():
-    FormatCExporter()\
+def export():
+    exporter = None
+
+    if combobox_formats.get() == 'Format A':
+        exporter = FormatAExporter()
+    elif combobox_formats.get() == 'Format B':
+        exporter = FormatBExporter()
+    elif combobox_formats.get() == 'Format C':
+        exporter = FormatCExporter()
+    elif combobox_formats.get() == 'Tags':
+        exporter = TagsExporter()
+    else:
+        return
+
+    exporter\
         .set_file_path(f"{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S_Projekte_Format-C.docx")}")\
         .export(projects)
 
@@ -133,13 +131,20 @@ for project in projects:
 
 frame_treeview.pack(fill=tk.BOTH, expand=True)
 
+export_format_labels = [
+    'Format A',
+    'Format B',
+    'Format C',
+    'Tags'
+]
+
 frame_buttons = ttk.Frame(window, padding=10)
 ttk.Button(frame_buttons, text="Neu", command=create_project).pack(side=tk.LEFT, padx=5)
 ttk.Button(frame_buttons, text="Bearbeiten", command=edit_project).pack(side=tk.LEFT, padx=5)
-ttk.Button(frame_buttons, text="Export (Tags)", command=export_tags).pack(side=tk.LEFT, padx=5)
-ttk.Button(frame_buttons, text="Export (Format A)", command=export_to_format_a).pack(side=tk.LEFT, padx=5)
-ttk.Button(frame_buttons, text="Export (Format B)", command=export_to_format_b).pack(side=tk.LEFT, padx=5)
-ttk.Button(frame_buttons, text="Export (Format C)", command=export_to_format_c).pack(side=tk.LEFT, padx=5)
+combobox_formats = ttk.Combobox(frame_buttons, values=export_format_labels)
+combobox_formats.set('Format A')
+combobox_formats.pack(side=tk.LEFT, padx=5)
+ttk.Button(frame_buttons, text="Export", command=export).pack(side=tk.LEFT, padx=5)
 frame_buttons.pack()
 
 window.mainloop()
