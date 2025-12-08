@@ -1,6 +1,8 @@
 import datetime
 import docx
 
+from project import Project
+
 class TagsExporter():
     def __init__(self):
         self.file_path = None
@@ -10,69 +12,83 @@ class TagsExporter():
 
         return self
     
-    def _get_min_timespan(self, tag:str, projects:list):
+    def _get_projects_by_tag(self, tag:str, projects:list):
         projects_with_tag = []
 
         for project in projects:
             if tag in project.Tags:
                 projects_with_tag.append(project)
 
-        for project_with_tag in projects_with_tag:
-            pass
+        return projects_with_tag
+    
+    def _get_timespan_keys(self, start_year:int, start_month:int, end_year:int, end_month:int):
+        current_month = start_month
+        current_year = start_year
+        timespan_keys = []
+        timespan_keys.append(f"{current_year}-{current_month:03d}")
+            
+        while not (current_month == end_month and \
+            current_year == end_year):
+            current_month += 1
 
-        timespan = 0
+            if current_month == 13:
+                current_month = 1
+                current_year += 1
+            
+            timespan_keys.append(f"{current_year}-{current_month:03d}")
 
-        return 0
+        return timespan_keys
+        
+    def _get_project_timespan_keys(self, project:Project):
+        start_month = int(project.StartDate.split('/')[0])
+        start_year = int(project.StartDate.split('/')[1])
+        end_month = None
+        end_year = None
+
+        if project.EndDate == 'heute':
+            end_month = datetime.datetime.now().month
+            end_year = datetime.datetime.now().year
+        else:
+            end_month = int(project.EndDate.split('/')[0])
+            end_year = int(project.EndDate.split('/')[1])
+
+        return self._get_timespan_keys(start_year, start_month, end_year, end_month)
     
     def _get_max_timespan(self, tag:str, projects:list):
-        projects_with_tag = []
+        project_timespan_keys = []
 
-        for project in projects:
-            if tag in project.Tags:
-                projects_with_tag.append(project)
+        for project in self._get_projects_by_tag(tag, projects):
+            for project_timespan_key in self._get_project_timespan_keys(project):
+                project_timespan_keys.append(project_timespan_key)
 
-        min_month = int(projects_with_tag[0].StartDate.split('/')[0])
-        min_year = int(projects_with_tag[0].StartDate.split('/')[1])
+        unique_project_timespan_keys = list(dict.fromkeys(project_timespan_keys))
+        unique_project_timespan_keys.sort()
 
-        max_month = None
-        max_year = None
+        min_year = int(unique_project_timespan_keys[0].split('-')[0])
+        min_month = int(unique_project_timespan_keys[0].split('-')[1])
+        max_year = int(unique_project_timespan_keys[len(unique_project_timespan_keys) - 1].split('-')[0])
+        max_month = int(unique_project_timespan_keys[len(unique_project_timespan_keys) - 1].split('-')[1])
 
-        if projects_with_tag[0].EndDate == 'heute':
-            max_month = datetime.datetime.now().month
-            max_year = datetime.datetime.now().year
-        else:
-            max_month = int(projects_with_tag[0].EndDate.split('/')[0])
-            max_year = int(projects_with_tag[0].EndDate.split('/')[1])
+        return (f"{min_month}/{min_year:03d}", f"{max_month}/{max_year:03d}", len(self._get_timespan_keys(min_year, min_month, max_year, max_month)))
+    
+    def _get_min_timespan(self, tag:str, projects:list):
+        project_timespan_keys = []
 
-        for project_with_tag in projects_with_tag:
-            start_month = int(project_with_tag.StartDate.split('/')[0])
-            start_year = int(project_with_tag.StartDate.split('/')[1])
+        for project in self._get_projects_by_tag(tag, projects):
+            for project_timespan_key in self._get_project_timespan_keys(project):
+                project_timespan_keys.append(project_timespan_key)
 
-            if start_year < min_year:
-                min_year = start_year
-                min_month = start_month
-            elif start_year == min_year and \
-                start_month < min_month:
-                min_year = start_year
-                min_month = start_month
-            
-            if project_with_tag.EndDate == 'heute':
-                max_year = datetime.datetime.now().year
-                max_month = datetime.datetime.now().month
-                continue
+        unique_project_timespan_keys = list(dict.fromkeys(project_timespan_keys))
 
-            end_month = int(project_with_tag.EndDate.split('/')[0])
-            end_year = int(project_with_tag.EndDate.split('/')[1])
+        return len(unique_project_timespan_keys)
 
-            if end_year > max_year:
-                max_year = end_year
-                max_month = end_month
-            elif end_year == max_year and \
-                end_month > max_month:
-                max_year = end_year
-                max_month = end_month
+    def _get_past_timespan(self, start_date:str):
+        start_month = int(start_date.split('/')[0])
+        start_year = int(start_date.split('/')[1])
+        end_month = datetime.datetime.now().month
+        end_year = datetime.datetime.now().year
 
-        return (f"{min_month}/{min_year}", f"{max_month}/{max_year}")
+        return len(self._get_timespan_keys(start_year, start_month, end_year, end_month)) - 1
 
     def export(self, projects:list):
         tags = []
@@ -90,10 +106,12 @@ class TagsExporter():
             .add_run('Tags')
         run_tags.bold = True
 
-        table = doc.add_table(rows = len(tags) + 1, cols = 3)
+        table = doc.add_table(rows = len(tags) + 1, cols = 5)
         table.rows[0].cells[0].add_paragraph(style=None).add_run('Tag')
-        table.rows[0].cells[1].add_paragraph(style=None).add_run('max. Zeitspanne')
-        table.rows[0].cells[2].add_paragraph(style=None).add_run('min. Zeitspanne')
+        table.rows[0].cells[1].add_paragraph(style=None).add_run('Zeitspanne')
+        table.rows[0].cells[2].add_paragraph(style=None).add_run('Anz. Jahre (Zeitspanne)')
+        table.rows[0].cells[3].add_paragraph(style=None).add_run('Anz. Jahre (Nutzung)')
+        table.rows[0].cells[4].add_paragraph(style=None).add_run('Anz. Jahre (letzte Nutzung)')
 
         for i,tag in enumerate(tags):
             row = table.rows[i + 1].cells
@@ -112,6 +130,18 @@ class TagsExporter():
             cell = row[2]
             cell.paragraphs.clear()
             cell_paragraph = cell.add_paragraph(style=None)
-            cell_paragraph.add_run(str(self._get_min_timespan(tag, projects)))
+            cell_paragraph.add_run(f"{(max_timespan[2]/12):.2f}")
+
+            cell = row[3]
+            cell.paragraphs.clear()
+            cell_paragraph = cell.add_paragraph(style=None)
+            min_timespan = self._get_min_timespan(tag, projects)
+            cell_paragraph.add_run(f"{(min_timespan/12):.2f}")
+
+            cell = row[4]
+            cell.paragraphs.clear()
+            cell_paragraph = cell.add_paragraph(style=None)
+            past_timespan = self._get_past_timespan(max_timespan[1])
+            cell_paragraph.add_run(f"{(past_timespan/12):.2f}")
 
         doc.save(self.file_path)
