@@ -48,7 +48,7 @@ def export():
         return
 
     exporter\
-        .set_file_path(f"{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S_Projekte_Format-C.docx")}")\
+        .set_file_path(f"{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")}_Projekte_{combobox_formats.get()}.docx")\
         .export(projects)
 
 def open_project_form(project:Project):
