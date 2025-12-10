@@ -1,5 +1,5 @@
-from project import Project
-from taskgroup import TaskGroup
+from models.project import Project
+from models.taskgroup import TaskGroup
 
 
 class ProjectConverter():

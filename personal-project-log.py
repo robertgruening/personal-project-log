@@ -8,7 +8,7 @@ from exporters.tagsexporter import TagsExporter
 from exporters.formataexporter import FormatAExporter
 from exporters.formatbexporter import FormatBExporter
 from exporters.formatcexporter import FormatCExporter
-from project import Project
+from models.project import Project
 from projectconverter import ProjectConverter
 from repository import Repository
 

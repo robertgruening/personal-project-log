@@ -1,7 +1,7 @@
 import datetime
 import docx
 
-from project import Project
+from models.project import Project
 
 class TagsExporter():
     def __init__(self):
