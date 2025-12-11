@@ -73,6 +73,18 @@ class ProjectEditorWindow(tk.Toplevel):
         row_index += 1
         #endregion
 
+        #region description
+        description_label = ttk.Label(self, text="Beschreibung")
+        description_label.grid(column=0, row=row_index, sticky=tk.EW, padx=5, pady=5)
+
+        description_entry = Text(self, height=10)
+        description_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
+        
+        if self.project is not None:
+            description_entry.insert(0, self.project.Description)
+        row_index += 1
+        #endregion
+
         #region button save
         frame_buttons = ttk.Frame(self, padding=10)
         ttk.Button(frame_buttons, text="Abbrechen", command=self.destroy).pack(side=tk.LEFT, padx=5)
