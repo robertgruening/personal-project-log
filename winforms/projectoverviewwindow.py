@@ -21,7 +21,7 @@ class ProjectOverviewWindow(tk.Tk):
 
         frame_treeview = ttk.Frame(self, padding=10)
 
-        self.treeview = ttk.Treeview(frame_treeview, column=("c1", "c2", "c3"), show='headings', height=5)
+        self.treeview = ttk.Treeview(frame_treeview, column=("c1", "c2", "c3", "c4", "c5", "c6"), show='headings', height=5)
 
         scroll_bar = ttk.Scrollbar(frame_treeview, orient="vertical", command=self.treeview.yview)
         self.treeview.configure(yscrollcommand=scroll_bar.set)
@@ -35,10 +35,23 @@ class ProjectOverviewWindow(tk.Tk):
         self.treeview.heading("# 2", text="Start", anchor=CENTER)
         self.treeview.column("# 3", anchor='e', width=50)
         self.treeview.heading("# 3", text="Ende", anchor=CENTER)
+        self.treeview.column("# 4", anchor='w', width=100)
+        self.treeview.heading("# 4", text="Kundenname", anchor=CENTER)
+        self.treeview.column("# 5", anchor='w', width=100)
+        self.treeview.heading("# 5", text="Kundenstandort", anchor=CENTER)
+        self.treeview.column("# 6", anchor='w', width=100)
+        self.treeview.heading("# 6", text="Industriesektor", anchor=CENTER)
         self.treeview.pack()
 
         for project in self.projects:
-            self.treeview.insert('', 'end', values=(project.Title, project.StartDate, project.EndDate))
+            self.treeview.insert('', 'end', values=(\
+                project.Title,\
+                project.StartDate,\
+                project.EndDate,\
+                project.CustomerName,\
+                project.CustomerLocation,\
+                project.IndustrySector\
+            ))
 
         frame_treeview.pack(fill=tk.BOTH, expand=True)
 
