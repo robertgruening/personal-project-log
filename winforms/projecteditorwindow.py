@@ -4,10 +4,12 @@ import tkinter as tk
 from tkinter import ttk
 
 class ProjectEditorWindow(tk.Toplevel):
-    def __init__(self, parent, project=None):
+    def __init__(self, parent, project=None, create_project=None, update_project=None):
         super().__init__(parent)
 
         self.project = project
+        self.create_project = create_project
+        self.update_project = update_project
         self.title('Projekt')
         row_index = 0
 
@@ -103,5 +105,9 @@ class ProjectEditorWindow(tk.Toplevel):
         # validate project
 
         # return to main window
+        if self.project is None:
+            self.create_project(project)
+        else:
+            self.update_project(project)
         
         self.destroy()
