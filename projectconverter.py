@@ -1,7 +1,6 @@
 from models.project import Project
 from models.taskgroup import TaskGroup
 
-
 class ProjectConverter():
     def __init__(self):
         pass
@@ -37,3 +36,30 @@ class ProjectConverter():
             projects.append(project)
 
         return projects
+    
+    def convert_to_json(self, projects:list):
+        json_projects = []
+
+        for project in projects:
+            json_project = {
+                'Title' : project.Title,
+                'StartDate' : project.StartDate,
+                'EndDate' : project.EndDate,
+                'Description' : project.Description,
+                'CustomerName' : project.CustomerName,
+                'CustomerLocation' : project.CustomerLocation,
+                'IndustrySector' : project.IndustrySector,
+                'RoleNames' : project.RoleNames,
+                'TaskGroups' : [],
+                'Tags' : project.Tags
+            }
+
+            for task_group in project.TaskGroups:
+                json_project['TaskGroups'].append({
+                    'Name' : task_group.Name,
+                    'Tasks' : task_group.Tasks
+                })
+            
+            json_projects.append(json_project)
+
+        return json_projects
