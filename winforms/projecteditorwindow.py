@@ -114,7 +114,22 @@ class ProjectEditorWindow(tk.Toplevel):
         
         if self.project is not None and\
             self.project.Tags is not None:
+            self.project.Tags.sort()
             self.tags_entry.insert(END, ', '.join(self.project.Tags))
+        row_index += 1
+        #endregion
+
+        #region role names
+        role_names_label = ttk.Label(self, text="Rollennamen")
+        role_names_label.grid(column=0, row=row_index, sticky=tk.EW, padx=5, pady=5)
+
+        self.role_names_entry = Text(self, height=10)
+        self.role_names_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
+        
+        if self.project is not None and\
+            self.project.RoleNames is not None:
+            self.project.RoleNames.sort()
+            self.tags_entry.insert(END, ', '.join(self.project.RoleNames))
         row_index += 1
         #endregion
 
@@ -142,7 +157,18 @@ class ProjectEditorWindow(tk.Toplevel):
             trimmed_tag = trimmed_tag.strip('\n')
             trimmed_tags.append(trimmed_tag)
 
+        trimmed_tags.sort()
         project.Tags = trimmed_tags
+        role_names = self.role_names_entry.get("1.0", "end").split(',')
+        trimmed_role_names = []
+
+        for role_name in role_names:
+            trimmed_role_name = role_name.strip(' ')
+            trimmed_role_name = trimmed_role_name.strip('\n')
+            trimmed_role_names.append(trimmed_role_name)
+
+        trimmed_role_names.sort()
+        project.RoleNames = trimmed_role_names
 
         # validate project
 
