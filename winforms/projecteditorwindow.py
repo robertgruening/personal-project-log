@@ -74,6 +74,18 @@ class ProjectEditorWindow(tk.Toplevel):
         row_index += 1
         #endregion
 
+        #region industry sector
+        industry_sector_label = ttk.Label(self, text="Industriesektor")
+        industry_sector_label.grid(column=0, row=row_index, sticky=tk.EW, padx=5, pady=5)
+
+        self.industry_sector_entry = ttk.Entry(self)
+        self.industry_sector_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
+        
+        if self.project is not None:
+            self.industry_sector_entry.insert(0, self.project.IndustrySector)
+        row_index += 1
+        #endregion
+
         #region description
         description_label = ttk.Label(self, text="Beschreibung")
         description_label.grid(column=0, row=row_index, sticky=tk.EW, padx=5, pady=5)
@@ -100,6 +112,7 @@ class ProjectEditorWindow(tk.Toplevel):
         project.EndDate = self.end_date_entry.get()
         project.CustomerName = self.customer_name_entry.get()
         project.CustomerLocation = self.customer_location_entry.get()
+        project.IndustrySector = self.industry_sector_entry.get()
         project.Description = self.description_entry.get("1.0", "end")
 
         # validate project
