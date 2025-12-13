@@ -20,7 +20,8 @@ class ProjectEditorWindow(tk.Toplevel):
         self.title_entry = ttk.Entry(self)
         self.title_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
         
-        if self.project is not None:
+        if self.project is not None and\
+            self.project.Title is not None:
             self.title_entry.insert(0, self.project.Title)
         row_index += 1
         #endregion
@@ -33,7 +34,8 @@ class ProjectEditorWindow(tk.Toplevel):
         self.start_date_entry = ttk.Entry(self)
         self.start_date_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
         
-        if self.project is not None:
+        if self.project is not None and\
+            self.project.StartDate is not None:
             self.start_date_entry.insert(0, self.project.StartDate)
         row_index += 1
         #endregion
@@ -45,7 +47,8 @@ class ProjectEditorWindow(tk.Toplevel):
         self.end_date_entry = ttk.Entry(self)
         self.end_date_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
         
-        if self.project is not None:
+        if self.project is not None and\
+            self.project.EndDate is not None:
             self.end_date_entry.insert(0, self.project.EndDate)
         row_index += 1
         #endregion
@@ -57,7 +60,8 @@ class ProjectEditorWindow(tk.Toplevel):
         self.customer_name_entry = ttk.Entry(self)
         self.customer_name_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
         
-        if self.project is not None:
+        if self.project is not None and\
+            self.project.CustomerName is not None:
             self.customer_name_entry.insert(0, self.project.CustomerName)
         row_index += 1
         #endregion
@@ -69,7 +73,8 @@ class ProjectEditorWindow(tk.Toplevel):
         self.customer_location_entry = ttk.Entry(self)
         self.customer_location_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
         
-        if self.project is not None:
+        if self.project is not None and\
+            self.project.CustomerLocation is not None:
             self.customer_location_entry.insert(0, self.project.CustomerLocation)
         row_index += 1
         #endregion
@@ -81,7 +86,8 @@ class ProjectEditorWindow(tk.Toplevel):
         self.industry_sector_entry = ttk.Entry(self)
         self.industry_sector_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
         
-        if self.project is not None:
+        if self.project is not None and\
+            self.project.IndustrySector is not None:
             self.industry_sector_entry.insert(0, self.project.IndustrySector)
         row_index += 1
         #endregion
@@ -93,7 +99,8 @@ class ProjectEditorWindow(tk.Toplevel):
         self.description_entry = Text(self, height=10)
         self.description_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
         
-        if self.project is not None:
+        if self.project is not None and\
+            self.project.Description is not None:
             self.description_entry.insert(END, self.project.Description)
         row_index += 1
         #endregion
