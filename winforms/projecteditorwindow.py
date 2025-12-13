@@ -105,6 +105,19 @@ class ProjectEditorWindow(tk.Toplevel):
         row_index += 1
         #endregion
 
+        #region tags
+        tags_label = ttk.Label(self, text="Tags")
+        tags_label.grid(column=0, row=row_index, sticky=tk.EW, padx=5, pady=5)
+
+        self.tags_entry = Text(self, height=10)
+        self.tags_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
+        
+        if self.project is not None and\
+            self.project.Tags is not None:
+            self.tags_entry.insert(END, ', '.join(self.project.Tags))
+        row_index += 1
+        #endregion
+
         #region button save
         frame_buttons = ttk.Frame(self, padding=10)
         ttk.Button(frame_buttons, text="Abbrechen", command=self.destroy).pack(side=tk.LEFT, padx=5)
@@ -121,6 +134,15 @@ class ProjectEditorWindow(tk.Toplevel):
         project.CustomerLocation = self.customer_location_entry.get()
         project.IndustrySector = self.industry_sector_entry.get()
         project.Description = self.description_entry.get("1.0", "end")
+        tags = self.tags_entry.get("1.0", "end").split(',')
+        trimmed_tags = []
+
+        for tag in tags:
+            trimmed_tag = tag.strip(' ')
+            trimmed_tag = trimmed_tag.strip('\n')
+            trimmed_tags.append(trimmed_tag)
+
+        project.Tags = trimmed_tags
 
         # validate project
 
