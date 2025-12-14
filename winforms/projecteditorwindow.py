@@ -15,7 +15,7 @@ class ProjectEditorWindow(tk.Toplevel):
 
         #region title
         title_label = ttk.Label(self, text="Titel")
-        title_label.grid(column=0, row=row_index, sticky=tk.EW, padx=5, pady=5)
+        title_label.grid(column=0, row=row_index, sticky=tk.NW, padx=5, pady=5)
 
         self.title_entry = ttk.Entry(self)
         self.title_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
@@ -29,7 +29,7 @@ class ProjectEditorWindow(tk.Toplevel):
 
         #region start date
         start_date_label = ttk.Label(self, text="Startdatum")
-        start_date_label.grid(column=0, row=row_index, sticky=tk.EW, padx=5, pady=5)
+        start_date_label.grid(column=0, row=row_index, sticky=tk.NW, padx=5, pady=5)
 
         self.start_date_entry = ttk.Entry(self)
         self.start_date_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
@@ -42,7 +42,7 @@ class ProjectEditorWindow(tk.Toplevel):
 
         #region end date
         end_date_label = ttk.Label(self, text="Enddatum")
-        end_date_label.grid(column=0, row=row_index, sticky=tk.EW, padx=5, pady=5)
+        end_date_label.grid(column=0, row=row_index, sticky=tk.NW, padx=5, pady=5)
 
         self.end_date_entry = ttk.Entry(self)
         self.end_date_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
@@ -55,7 +55,7 @@ class ProjectEditorWindow(tk.Toplevel):
 
         #region customer name
         customer_name_label = ttk.Label(self, text="Kundenname")
-        customer_name_label.grid(column=0, row=row_index, sticky=tk.EW, padx=5, pady=5)
+        customer_name_label.grid(column=0, row=row_index, sticky=tk.NW, padx=5, pady=5)
 
         self.customer_name_entry = ttk.Entry(self)
         self.customer_name_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
@@ -68,7 +68,7 @@ class ProjectEditorWindow(tk.Toplevel):
 
         #region customer location
         customer_location_label = ttk.Label(self, text="Kundenstandort")
-        customer_location_label.grid(column=0, row=row_index, sticky=tk.EW, padx=5, pady=5)
+        customer_location_label.grid(column=0, row=row_index, sticky=tk.NW, padx=5, pady=5)
 
         self.customer_location_entry = ttk.Entry(self)
         self.customer_location_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
@@ -81,7 +81,7 @@ class ProjectEditorWindow(tk.Toplevel):
 
         #region industry sector
         industry_sector_label = ttk.Label(self, text="Industriesektor")
-        industry_sector_label.grid(column=0, row=row_index, sticky=tk.EW, padx=5, pady=5)
+        industry_sector_label.grid(column=0, row=row_index, sticky=tk.NW, padx=5, pady=5)
 
         self.industry_sector_entry = ttk.Entry(self)
         self.industry_sector_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
@@ -94,7 +94,7 @@ class ProjectEditorWindow(tk.Toplevel):
 
         #region description
         description_label = ttk.Label(self, text="Beschreibung")
-        description_label.grid(column=0, row=row_index, sticky=tk.EW, padx=5, pady=5)
+        description_label.grid(column=0, row=row_index, sticky=tk.NW, padx=5, pady=5)
 
         self.description_entry = Text(self, height=10)
         self.description_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
@@ -107,7 +107,7 @@ class ProjectEditorWindow(tk.Toplevel):
 
         #region tags
         tags_label = ttk.Label(self, text="Tags")
-        tags_label.grid(column=0, row=row_index, sticky=tk.EW, padx=5, pady=5)
+        tags_label.grid(column=0, row=row_index, sticky=tk.NW, padx=5, pady=5)
 
         self.tags_entry = Text(self, height=10)
         self.tags_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
@@ -121,7 +121,7 @@ class ProjectEditorWindow(tk.Toplevel):
 
         #region role names
         role_names_label = ttk.Label(self, text="Rollennamen")
-        role_names_label.grid(column=0, row=row_index, sticky=tk.EW, padx=5, pady=5)
+        role_names_label.grid(column=0, row=row_index, sticky=tk.NW, padx=5, pady=5)
 
         self.role_names_entry = Text(self, height=10)
         self.role_names_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
@@ -129,7 +129,31 @@ class ProjectEditorWindow(tk.Toplevel):
         if self.project is not None and\
             self.project.RoleNames is not None:
             self.project.RoleNames.sort()
-            self.tags_entry.insert(END, ', '.join(self.project.RoleNames))
+            self.role_names_entry.insert(END, ', '.join(self.project.RoleNames))
+        row_index += 1
+        #endregion
+
+        #region task groups
+        task_groups_label = ttk.Label(self, text="gruppierte Aufgaben")
+        task_groups_label.grid(column=0, row=row_index, sticky=tk.NW, padx=5, pady=5)
+
+        self.task_groups_entry = Text(self, height=10)
+        self.task_groups_entry.grid(column=1, row=row_index, sticky=tk.EW, padx=5, pady=5)
+        
+        if self.project is not None:
+            text = ''
+            task_groups = self.project.TaskGroups
+            task_groups = sorted(task_groups, key=lambda task_group: task_group.Name)
+            for i,task_group in enumerate(task_groups):
+                text += f"{task_group.Name}:\n"
+                tasks = task_group.Tasks
+                tasks.sort()
+                text += '\n* '.join(tasks)
+
+                if i <= len(task_groups):
+                    text += '\n\n'
+
+            self.task_groups_entry.insert(END, text)
         row_index += 1
         #endregion
 
