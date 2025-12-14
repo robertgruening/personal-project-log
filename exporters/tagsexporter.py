@@ -144,6 +144,9 @@ class TagsExporter():
             else:
                 cell_paragraph.add_run(f"{min_timespan // 12}J {(min_timespan % 12)}M")
 
+            cell_paragraph = cell.add_paragraph(style=None)
+            cell_paragraph.add_run(f"{((min_timespan / max_timespan[2]) * 100):.1f}%")
+
             cell = row[4]
             cell.paragraphs.clear()
             cell_paragraph = cell.add_paragraph(style=None)
@@ -152,5 +155,8 @@ class TagsExporter():
                 cell_paragraph.add_run(f"{past_timespan}M")
             else:
                 cell_paragraph.add_run(f"{(past_timespan // 12)}J {(past_timespan % 12)}M")
+            
+            cell_paragraph = cell.add_paragraph(style=None)
+            cell_paragraph.add_run(f"{((past_timespan / max_timespan[2]) * 100):.1f}%")
 
         doc.save(self.file_path)
