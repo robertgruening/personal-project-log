@@ -107,37 +107,33 @@ class TagsExporter():
         run_tags.bold = True
 
         table = doc.add_table(rows = len(tags) + 1, cols = 5)
-        table.rows[0].cells[0].add_paragraph(style=None).add_run('Tag')
-        table.rows[0].cells[1].add_paragraph(style=None).add_run('Zeitspanne')
-        table.rows[0].cells[2].add_paragraph(style=None).add_run('Anz. Jahre (Zeitspanne)')
-        table.rows[0].cells[3].add_paragraph(style=None).add_run('Anz. Jahre (Nutzung)')
-        table.rows[0].cells[4].add_paragraph(style=None).add_run('Anz. Jahre (letzte Nutzung)')
+        table.rows[0].cells[0].paragraphs[0].add_run('Tag')
+        table.rows[0].cells[1].paragraphs[0].add_run('Zeitspanne')
+        table.rows[0].cells[2].paragraphs[0].add_run('Anz. Jahre (Zeitspanne)')
+        table.rows[0].cells[3].paragraphs[0].add_run('Anz. Jahre (Nutzung)')
+        table.rows[0].cells[4].paragraphs[0].add_run('Anz. Jahre (letzte Nutzung)')
 
         for i,tag in enumerate(tags):
             row = table.rows[i + 1].cells
 
             cell = row[0]
-            cell.paragraphs.clear()
-            cell_paragraph = cell.add_paragraph(style=None)
+            cell_paragraph = cell.paragraphs[0]
             cell_paragraph.add_run(tag)
 
             cell = row[1]
-            cell.paragraphs.clear()
-            cell_paragraph = cell.add_paragraph(style=None)
+            cell_paragraph = cell.paragraphs[0]
             max_timespan = self._get_max_timespan(tag, projects)
             cell_paragraph.add_run(f"{max_timespan[0]} - {max_timespan[1]}")
 
             cell = row[2]
-            cell.paragraphs.clear()
-            cell_paragraph = cell.add_paragraph(style=None)
+            cell_paragraph = cell.paragraphs[0]
             if (max_timespan[2] // 12) == 0:
                 cell_paragraph.add_run(f"{max_timespan[2]}M")
             else:
                 cell_paragraph.add_run(f"{max_timespan[2] // 12}J {(max_timespan[2] % 12)}M")
 
             cell = row[3]
-            cell.paragraphs.clear()
-            cell_paragraph = cell.add_paragraph(style=None)
+            cell_paragraph = cell.paragraphs[0]
             min_timespan = self._get_min_timespan(tag, projects)
             if (min_timespan // 12) == 0:
                 cell_paragraph.add_run(f"{min_timespan}M")
@@ -148,8 +144,7 @@ class TagsExporter():
             cell_paragraph.add_run(f"{((min_timespan / max_timespan[2]) * 100):.1f}%")
 
             cell = row[4]
-            cell.paragraphs.clear()
-            cell_paragraph = cell.add_paragraph(style=None)
+            cell_paragraph = cell.paragraphs[0]
             past_timespan = self._get_past_timespan(max_timespan[1])
             if (past_timespan // 12) == 0:
                 cell_paragraph.add_run(f"{past_timespan}M")
