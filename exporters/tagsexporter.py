@@ -130,18 +130,27 @@ class TagsExporter():
             cell = row[2]
             cell.paragraphs.clear()
             cell_paragraph = cell.add_paragraph(style=None)
-            cell_paragraph.add_run(f"{(max_timespan[2]/12):.2f}")
+            if (max_timespan[2] // 12) == 0:
+                cell_paragraph.add_run(f"{max_timespan[2]}M")
+            else:
+                cell_paragraph.add_run(f"{max_timespan[2] // 12}J {(max_timespan[2] % 12)}M")
 
             cell = row[3]
             cell.paragraphs.clear()
             cell_paragraph = cell.add_paragraph(style=None)
             min_timespan = self._get_min_timespan(tag, projects)
-            cell_paragraph.add_run(f"{(min_timespan/12):.2f}")
+            if (min_timespan // 12) == 0:
+                cell_paragraph.add_run(f"{min_timespan}M")
+            else:
+                cell_paragraph.add_run(f"{min_timespan // 12}J {(min_timespan % 12)}M")
 
             cell = row[4]
             cell.paragraphs.clear()
             cell_paragraph = cell.add_paragraph(style=None)
             past_timespan = self._get_past_timespan(max_timespan[1])
-            cell_paragraph.add_run(f"{(past_timespan/12):.2f}")
+            if (past_timespan // 12) == 0:
+                cell_paragraph.add_run(f"{past_timespan}M")
+            else:
+                cell_paragraph.add_run(f"{(past_timespan // 12)}J {(past_timespan % 12)}M")
 
         doc.save(self.file_path)
